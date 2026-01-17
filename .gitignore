@@ -1,4 +1,4 @@
-backend/ .env
+backend/.env
 __pycache__/
-backend/ .venv/
+backend/.venv/
 .vscode/
