@@ -33,3 +33,18 @@ async def signup(User: schemas.UserCreate,db : Session=Depends(database.get_db))
             status_code=status.HTTP_400_BAD_REQUEST, 
             detail="Email already registered"
             )
+
+@router.post("/login",status_code=status.HTTP_200_OK,response_model=schemas.TokenResponse)
+async def login(user_credentials: schemas.Userlogin, db: Session= Depends(database.get_db)):
+    logger.info(f"Login attempt for email: {user_credentials.email}")
+    user=db.query(models.User).filter(models.User.email==user_credentials.email).first()
+    if not user or not utils.verify_password(user_credentials.password, user.hashed_password):
+        logger.warning(f"Login failed for: {user_credentials.email}")
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED, 
+            detail="Invalid credentials"
+        )
+
+    access_token = utils.create_access_token(data={"user_id": str(user.id)})
+
+    return schemas.TokenResponse(access_token=access_token, token_type="bearer")
