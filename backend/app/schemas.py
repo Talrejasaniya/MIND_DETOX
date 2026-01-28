@@ -12,3 +12,11 @@ class UserResponse(BaseModel):
     is_active: bool
     created_at: datetime
     model_config = ConfigDict(from_attributes=True)
+    
+class Userlogin(BaseModel):
+    email: EmailStr
+    password: str =  Field(..., min_length=8, max_length=72)
+    
+class TokenResponse(BaseModel):
+    access_token: str
+    token_type: str
