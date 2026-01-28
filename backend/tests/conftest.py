@@ -36,3 +36,5 @@ def client(db_session):
     app.dependency_overrides[get_db] = override_get_db
     yield TestClient(app)
     app.dependency_overrides.clear() # Reset after test
+    
+    

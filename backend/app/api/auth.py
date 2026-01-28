@@ -4,6 +4,10 @@ from .. import models,database,schemas,utils
 from sqlalchemy.exc import IntegrityError
 from ..database import get_db
 import logging
+from jose import JWTError, jwt
+# Apne config se SECRET_KEY aur ALGORITHM import karo
+from ..config import settings 
+from .oauth2 import get_current_user
 
 logging.basicConfig(level=logging.INFO,format='%(asctime)s - %(levelname)s - %(message)s')
 logger=logging.getLogger(__name__)
@@ -44,7 +48,12 @@ async def login(user_credentials: schemas.Userlogin, db: Session= Depends(databa
             status_code=status.HTTP_401_UNAUTHORIZED, 
             detail="Invalid credentials"
         )
+    
 
     access_token = utils.create_access_token(data={"user_id": str(user.id)})
 
     return schemas.TokenResponse(access_token=access_token, token_type="bearer")
+
+@router.get("/users/me", response_model=schemas.UserResponse)
+async def read_users_me(current_user: models.User = Depends(get_current_user)):
+    return current_user
