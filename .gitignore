@@ -1,0 +1,12 @@
+# Python caches
+**/__pycache__/
+*.pyc
+
+# Backend secrets and environment
+backend/.env
+backend/.venv/
+backend/.pytest_cache/
+backend/app/api/__pycache__/
+
+# User-specific
+.vscode/

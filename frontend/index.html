@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mind Detox - Login & Signup</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="container">
+        <!-- Login Form -->
+        <div class="form-container" id="loginForm">
+            <h1>Login</h1>
+
+            <div id="loginErrorMessage" class="error-message"></div>
+            <div id="loginSuccessMessage" class="success-message"></div>
+
+            <form onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label for="loginEmail">Email Address</label>
+                    <input type="email" id="loginEmail" name="email" placeholder="you@example.com" required>
+                </div>
+
+                <div class="form-group password-container">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" name="password" placeholder="Enter your password"
+                        required>
+                    <span class="toggle-password" onclick="togglePassword('loginPassword')">👁</span>
+                </div>
+
+                <button type="submit" class="submit-btn">Sign In</button>
+            </form>
+
+            <p class="form-footer">
+                Don't have an account?
+                <a href="#" onclick="toggleForms()" class="form-link">Sign up here</a>
+            </p>
+        </div>
+
+        <!-- Signup Form -->
+        <div class="form-container hidden" id="signupForm">
+            <h1>Sign Up</h1>
+
+            <div id="signupErrorMessage" class="error-message"></div>
+            <div id="signupSuccessMessage" class="success-message"></div>
+
+            <form onsubmit="handleSignup(event)">
+                <div class="form-group">
+                    <label for="signupEmail">Email Address</label>
+                    <input type="email" id="signupEmail" name="email" placeholder="you@example.com" required>
+                </div>
+
+                <div class="form-group password-container">
+                    <label for="signupPassword">Password</label>
+                    <input type="password" id="signupPassword" name="password" placeholder="Create a strong password"
+                        required>
+                    <span class="toggle-password" onclick="togglePassword('signupPassword')">👁</span>
+                </div>
+
+                <div class="form-group password-container">
+                    <label for="confirmPassword">Confirm Password</label>
+                    <input type="password" id="confirmPassword" name="confirmPassword"
+                        placeholder="Confirm your password" required>
+                    <span class="toggle-password" onclick="togglePassword('confirmPassword')">👁</span>
+                </div>
+
+                <button type="submit" class="submit-btn">Create Account</button>
+            </form>
+
+            <p class="form-footer">
+                Already have an account?
+                <a href="#" onclick="toggleForms()" class="form-link">Sign in here</a>
+            </p>
+        </div>
+    </div>
+
+     <script>
+    const API_BASE_URL = window.location.origin;
+
+    // LOGIN LOGIC (Interconnected with auth.py)
+   async function handleLogin(event) {
+    event.preventDefault();
+    const email = document.getElementById('loginEmail').value;
+    const password = document.getElementById('loginPassword').value;
+
+    try {
+        const response = await fetch(`${window.location.origin}/login`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email: email, password: password }) // Match with schemas.Userlogin
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            localStorage.setItem('token', data.access_token); 
+            showMessage('loginSuccessMessage', 'Login Successful! Redirecting...', false);
+            
+            // 1.5 second baad dashboard par bhejna
+            setTimeout(() => { window.location.href = '/dashboard.html'; }, 1500);
+        } else {
+            showMessage('loginErrorMessage', data.detail || 'Login Failed', true);
+        }
+    } catch (error) {
+        showMessage('loginErrorMessage', 'Backend unreachable!', true);
+    }
+}
+
+    // SIGNUP LOGIC (Interconnected with auth.py)
+    async function handleSignup(event) {
+        event.preventDefault();
+        const email = document.getElementById('signupEmail').value;
+        const password = document.getElementById('signupPassword').value;
+        const confirmPassword = document.getElementById('confirmPassword').value;
+
+        if (password !== confirmPassword) {
+            showMessage('signupErrorMessage', 'Passwords do not match', true);
+            return;
+        }
+        if (password.length < 8) {
+    showMessage('signupErrorMessage', 'Password should be more than 8 characters', true);
+    return;
+}
+
+        try {
+            const response = await fetch(`${API_BASE_URL}/signup`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                // Backend schemas.UserCreate expects 'email' and 'password'
+                body: JSON.stringify({ email: email, password: password })
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                showMessage('signupSuccessMessage', 'Account created! Please Login.', false);
+                setTimeout(() => toggleForms(), 2000);
+            } else {
+                // 'Email already registered' message from backend
+                showMessage('signupErrorMessage', data.detail || 'Signup failed', true);
+            }
+        } catch (error) {
+            showMessage('signupErrorMessage', 'Backend server unreachable!', true);
+        }
+    }
+
+    // UI Helper Functions (Toggle and ShowMessage)
+    function toggleForms() {
+        document.getElementById('loginForm').classList.toggle('hidden');
+        document.getElementById('signupForm').classList.toggle('hidden');
+    }
+    function togglePassword(fieldId) {
+    const field = document.getElementById(fieldId);
+    if (field) {
+        field.type = field.type === 'password' ? 'text' : 'password';
+    }
+}
+
+    function showMessage(elementId, message, isError = true) {
+    const el = document.getElementById(elementId);
+    
+    if (typeof message === 'object') {
+        if (message[0] && message[0].msg) {
+            el.textContent = `${message[0].loc[1]}: ${message[0].msg}`;
+        } else {
+            el.textContent = JSON.stringify(message);
+        }
+    } else {
+        el.textContent = message;
+    }
+
+    el.style.display = 'block';
+    setTimeout(() => { el.style.display = 'none'; }, 5000);
+}
+</script>
+</body>
+
+</html>
