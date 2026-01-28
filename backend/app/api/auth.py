@@ -8,6 +8,7 @@ from jose import JWTError, jwt
 # Apne config se SECRET_KEY aur ALGORITHM import karo
 from ..config import settings 
 from .oauth2 import get_current_user
+from fastapi.security import OAuth2PasswordRequestForm
 
 logging.basicConfig(level=logging.INFO,format='%(asctime)s - %(levelname)s - %(message)s')
 logger=logging.getLogger(__name__)
@@ -39,11 +40,11 @@ async def signup(User: schemas.UserCreate,db : Session=Depends(database.get_db))
             )
 
 @router.post("/login",status_code=status.HTTP_200_OK,response_model=schemas.TokenResponse)
-async def login(user_credentials: schemas.Userlogin, db: Session= Depends(database.get_db)):
-    logger.info(f"Login attempt for email: {user_credentials.email}")
-    user=db.query(models.User).filter(models.User.email==user_credentials.email).first()
+async def login(db: Session = Depends(get_db), user_credentials: OAuth2PasswordRequestForm = Depends()):
+    logger.info(f"Login attempt for email: {user_credentials.username}")
+    user = db.query(models.User).filter(models.User.email == user_credentials.username).first()
     if not user or not utils.verify_password(user_credentials.password, user.hashed_password):
-        logger.warning(f"Login failed for: {user_credentials.email}")
+        logger.warning(f"Login failed for: {user_credentials.username}")
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED, 
             detail="Invalid credentials"

@@ -16,18 +16,15 @@ frontend_path = os.path.join(root_dir, "frontend")
 models.Base.metadata.create_all(bind=database.engine)
 
 app = FastAPI(title="Mind Detox API")
-origins = [
-    "http://localhost:8000",
-    "https://your-app-name.onrender.com", 
-]
-# 1. CORS Setup (Essential for Frontend-Backend connection)
+origins = ["*"] 
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
+    allow_credentials=True, 
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
 app.mount("/app", StaticFiles(directory=frontend_path, html=True), name="static")# Routes include karna
 app.include_router(auth.router)
 
