@@ -2,7 +2,7 @@ from fastapi import FastAPI
 # Relative '.' hata kar absolute imports use karo
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
-from app.api import auth 
+from app.api import auth , journal
 from app import models, database
 import os
 
@@ -27,7 +27,7 @@ app.add_middleware(
 )
 app.mount("/app", StaticFiles(directory=frontend_path, html=True), name="static")# Routes include karna
 app.include_router(auth.router)
-
+app.include_router(journal.router)
 @app.get("/")
 def read_root():
     return {"message" : "Welcome to the Mind Detox API"}

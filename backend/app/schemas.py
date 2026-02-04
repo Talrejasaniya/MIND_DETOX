@@ -1,6 +1,7 @@
 from pydantic import BaseModel,EmailStr,Field , ConfigDict
 from datetime import datetime 
 from uuid import UUID
+from typing import Optional
 
 class UserCreate(BaseModel):
     email: EmailStr
@@ -20,3 +21,24 @@ class Userlogin(BaseModel):
 class TokenResponse(BaseModel):
     access_token: str
     token_type: str
+    
+# Base schema (Common fields)
+class JournalBase(BaseModel):
+    title: Optional[str] = Field(None, max_length=200, example="My First Brain Dump")
+    content: str = Field(..., min_length=1, example="Today I felt a bit overwhelmed but...")
+    category: Optional[str] = Field("General", example="Stress")
+    mood_tag: Optional[str] = Field(None, example="Neutral")
+
+# Data coming from Frontend (User input)
+class JournalCreate(JournalBase):
+    pass
+
+# Data going to Frontend (Response)
+class JournalResponse(JournalBase):
+    id: UUID
+    user_id: UUID
+    created_at: datetime
+    updated_at: Optional[datetime]
+
+    class Config:
+        from_attributes = True # SQLAlchemy models ko Pydantic mein convert karne ke liye
