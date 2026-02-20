@@ -36,7 +36,7 @@ async def signup(User: schemas.UserCreate,db : Session=Depends(database.get_db))
         logger.warning(f"Registration failed: Email already registered - {User.email}")
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST, 
-            detail="Email already registered"
+            detail="Registration failed. Please check your details."
             )
 
 @router.post("/login",status_code=status.HTTP_200_OK,response_model=schemas.TokenResponse)

@@ -5,8 +5,7 @@ class Settings(BaseSettings):
     algorithm: str
     database_url: str
     sqlalchemy_database_url_test: str
-    
-    # YE LINE ADD KARO (Zaroori hai!)
+    GEMINI_API_KEY: str
     access_token_expire_minutes: int 
 
     class Config:

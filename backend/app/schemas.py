@@ -26,7 +26,6 @@ class TokenResponse(BaseModel):
 class JournalBase(BaseModel):
     title: Optional[str] = Field(None, max_length=200, example="My First Brain Dump")
     content: str = Field(..., min_length=1, example="Today I felt a bit overwhelmed but...")
-    category: Optional[str] = Field("General", example="Stress")
     mood_tag: Optional[str] = Field(None, example="Neutral")
 
 # Data coming from Frontend (User input)
@@ -38,7 +37,29 @@ class JournalResponse(JournalBase):
     id: UUID
     user_id: UUID
     created_at: datetime
-    updated_at: Optional[datetime]
+    #updated_at: Optional[datetime]
+
+    class Config:
+        from_attributes = True # SQLAlchemy models ko Pydantic mein convert karne ke liye
+        
+# User jo dump bhejega
+class AIMirrorRequest(BaseModel):
+    content: str = Field(..., min_length=1, example="I feel overwhelmed with my internship search.")
+
+# AI jo reflection bhejega
+class AIMirrorResponse(BaseModel):
+    reflection: str
+    
+# Base Memory Model
+class MemoryBase(BaseModel):
+    summary: str # R4: Sirf summary save hogi
+
+# Response Model (Jo user ko dikhega)
+class MemoryResponse(MemoryBase):
+    id: UUID
+    user_id: UUID
+    source_journal_id: UUID
+    created_at: datetime
 
     class Config:
         from_attributes = True # SQLAlchemy models ko Pydantic mein convert karne ke liye

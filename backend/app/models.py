@@ -22,24 +22,20 @@ class User(Base):
     
 class JournalEntry(Base):
     __tablename__ = "journals"
-
-    # Primary Key
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    
-    # Foreign Key (Relationship with User)
-    user_id = Column(UUID(as_uuid=True), ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
-
-    # Core Fields (Based on your research)
-    title = Column(String(255), nullable=True) # Optional heading
-    content = Column(Text, nullable=False)      # Main Brain Dump area
-    
-    # Analysis Fields
-    category = Column(String(50), default="General") # Stress, Task, Reflection
-    mood_tag = Column(String(50), nullable=True)    # For Visual Calendar
-    
-    # Timestamps
+    user_id = Column(UUID(as_uuid=True), ForeignKey("users.id", ondelete="CASCADE"), nullable=True) # Nullable for Guests
+    title = Column(String(200), nullable=True)
+    mood_tag = Column(String(50), nullable=True)
+    content = Column(Text, nullable=False)
+    is_saved = Column(Boolean, default=False) 
     created_at = Column(DateTime(timezone=True), server_default=func.now())
-    updated_at = Column(DateTime(timezone=True), onupdate=func.now())
-
-    # Back Reference to User
     owner = relationship("User", back_populates="journals")
+    memories = relationship("Memory", backref="source_journal", cascade="all, delete-orphan")
+
+class Memory(Base):
+    __tablename__ = "memories"
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    user_id = Column(UUID(as_uuid=True), ForeignKey("users.id", ondelete="CASCADE"))
+    summary = Column(String(500), nullable=False) 
+    source_journal_id = Column(UUID(as_uuid=True), ForeignKey("journals.id",ondelete="CASCADE"))
+    created_at = Column(DateTime(timezone=True), server_default=func.now())
