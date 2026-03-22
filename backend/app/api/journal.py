@@ -4,30 +4,25 @@ from .. import models, schemas, database
 from . import oauth2
 from typing import List
 from uuid import UUID
+from .ai import client # Agar client same file mein nahi hai
+
 
 router = APIRouter(
     prefix="/journals",
     tags=['Journals']
 )
 
-@router.post("/", status_code=status.HTTP_201_CREATED, response_model=schemas.JournalResponse)
-def create_journal(
-    journal: schemas.JournalCreate, 
-    db: Session = Depends(database.get_db), 
-    current_user: models.User = Depends(oauth2.get_current_user) # Security Layer
-):
-    # 1. New Journal Entry create karo
-    # **current_user.id** humare token se aata hai, user ko ise bhejne ki zaroorat nahi hai
-    new_journal = models.JournalEntry(user_id=current_user.id, **journal.model_dump())
+# journals.py mein import karein
+from .ai import client # Agar client same file mein nahi hai
 
-    # 2. Database mein save karo
+@router.post("/", status_code=status.HTTP_201_CREATED, response_model=schemas.JournalResponse)
+def create_journal(journal: schemas.JournalCreate, db: Session = Depends(database.get_db), current_user: models.User = Depends(oauth2.get_current_user)):
+    # 1. Journal Save
+    new_journal = models.JournalEntry(user_id=current_user.id, **journal.model_dump())
     db.add(new_journal)
     db.commit()
-    
-    # 3. Refresh taaki hume generated ID aur timestamp mil sake
-    db.refresh(new_journal)
-
-    return new_journal
+    db.refresh(new_journal) 
+    return new_journal  
 
 @router.get("/", response_model=List[schemas.JournalResponse])
 def get_user_journals(
@@ -49,15 +44,19 @@ def update_journal(id: UUID, updated_entry: schemas.JournalCreate, db: Session =
     journal = journal_query.first()
 
     if not journal:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Journal entry not found")
-    
-    # Ownership Check: Kya ye journal isi user ka hai?
-    if journal.user_id != current_user.id:
-        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Not authorized to update this journal")
+        raise HTTPException(status_code=404, detail="Journal not found")
 
-    journal_query.update(updated_entry.model_dump(), synchronize_session=False)
+    # Direct comparison karein, UUIDs string ya object form mein match ho jayenge
+    if str(journal.user_id) != str(current_user.id):
+        raise HTTPException(status_code=403, detail="Not authorized")
+
+    # Data update karein
+    for key, value in updated_entry.model_dump(exclude_unset=True).items():
+        setattr(journal, key, value)
+
     db.commit()
-    return journal_query.first()
+    db.refresh(journal)
+    return journal # Return karna zaroori hai
 
 @router.delete("/{id}", status_code=status.HTTP_204_NO_CONTENT)
 def delete_journal(id: UUID, db: Session = Depends(database.get_db), current_user: models.User = Depends(oauth2.get_current_user)):
@@ -67,8 +66,8 @@ def delete_journal(id: UUID, db: Session = Depends(database.get_db), current_use
     if not journal:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Journal entry not found")
 
-    # Ownership Check
-    if journal.user_id != current_user.id:
+    # Ownership Check (Simple and Clean)
+    if str(journal.user_id) != str(current_user.id):
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Not authorized to delete this journal")
 
     journal_query.delete(synchronize_session=False)

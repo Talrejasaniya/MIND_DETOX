@@ -1,16 +1,21 @@
 from pydantic_settings import BaseSettings
+import os
+from dotenv import load_dotenv
+
+load_dotenv() # .env file load karne ke liye
 
 class Settings(BaseSettings):
-    SECRET_KEY: str
-    algorithm: str
-    database_url: str
-    sqlalchemy_database_url_test: str
-    GEMINI_API_KEY: str
-    access_token_expire_minutes: int 
+    # Default values dene se "Arguments missing" wala error chala jayega
+    SECRET_KEY: str = os.getenv("SECRET_KEY", "")
+    ALGORITHM: str = os.getenv("ALGORITHM", "HS256")
+    ACCESS_TOKEN_EXPIRE_MINUTES: int = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES", 2))
+    
+    DATABASE_URL: str = os.getenv("DATABASE_URL", "")
+    SQLALCHEMY_DATABASE_URL_TEST: str = os.getenv("SQLALCHEMY_DATABASE_URL_TEST", "")
+    GEMINI_API_KEY: str = os.getenv("GEMINI_API_KEY", "")
 
     class Config:
         env_file = ".env"
-        # Agar tum chahti ho ki extra keys se error na aaye, toh ye add kar sakti ho:
-        # extra = "ignore" 
 
+# Ise call karte waqt ab arguments nahi mangega
 settings = Settings()

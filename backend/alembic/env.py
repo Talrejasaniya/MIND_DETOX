@@ -11,8 +11,7 @@ load_dotenv()
 
 config = context.config
 
-config.set_main_option("sqlalchemy.url", os.getenv("DATABASE_URL"))
-# this is the Alembic Config object, which provides
+config.set_main_option("sqlalchemy.url", str(os.getenv("DATABASE_URL")))# this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config
 

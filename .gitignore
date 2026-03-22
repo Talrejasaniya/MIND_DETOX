@@ -10,3 +10,8 @@ backend/app/api/__pycache__/
 
 # User-specific
 .vscode/
+
+#frontend 
+backend/frontend/.gitignore
+
+frontend-old/

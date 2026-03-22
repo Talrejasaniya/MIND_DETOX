@@ -24,10 +24,10 @@ class TokenResponse(BaseModel):
     
 # Base schema (Common fields)
 class JournalBase(BaseModel):
-    title: Optional[str] = Field(None, max_length=200, example="My First Brain Dump")
-    content: str = Field(..., min_length=1, example="Today I felt a bit overwhelmed but...")
-    mood_tag: Optional[str] = Field(None, example="Neutral")
-
+   title: Optional[str] = Field(None, max_length=200, description="My First Brain Dump")
+   content: str = Field(..., min_length=1, description="Today I felt a bit overwhelmed...")
+   mood_tag: Optional[str] = Field(None, description="Neutral")
+    
 # Data coming from Frontend (User input)
 class JournalCreate(JournalBase):
     pass
@@ -43,9 +43,8 @@ class JournalResponse(JournalBase):
         from_attributes = True # SQLAlchemy models ko Pydantic mein convert karne ke liye
         
 # User jo dump bhejega
-class AIMirrorRequest(BaseModel):
-    content: str = Field(..., min_length=1, example="I feel overwhelmed with my internship search.")
-
+class AIMirrorRequest(BaseModel): 
+   content: str = Field(..., min_length=1)
 # AI jo reflection bhejega
 class AIMirrorResponse(BaseModel):
     reflection: str

@@ -4,8 +4,8 @@ from fastapi.security import OAuth2PasswordBearer
 from sqlalchemy.orm import Session
 from .. import models, database, schemas
 from ..config import settings
-
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
+from uuid import UUID 
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="api/v1/login")
 
 def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(database.get_db)):
     credentials_exception = HTTPException(
@@ -15,17 +15,18 @@ def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(
     )
     try:
         # Token decode karna (Ensure settings.secret_key and settings.algorithm are correct)
-        payload = jwt.decode(token, settings.SECRET_KEY, algorithms=[settings.algorithm])
-        user_id: str = payload.get("user_id")
+        payload = jwt.decode(token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM])
+        user_id: str | None = payload.get("user_id")
         
         if user_id is None:
             raise credentials_exception
-            
+        
+        user_id_uuid = UUID(user_id)   
     except JWTError:
         raise credentials_exception
     
     # Database se user fetch karna
-    user = db.query(models.User).filter(models.User.id == user_id).first()
+    user = db.query(models.User).filter(models.User.id == user_id_uuid).first()
     
     if user is None:
         raise credentials_exception

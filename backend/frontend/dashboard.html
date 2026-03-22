@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard — Mind Detox</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body data-page="dashboard" class="dashboard">
+
+  <!-- ═══════════════════════════════
+       NAVIGATION
+  ════════════════════════════════ -->
+  <nav class="dash-nav">
+    <div class="container">
+      <a href="index.html" class="nav-brand">
+        <div class="nav-logo">🌿</div>
+        <span class="nav-name">Mind Detox</span>
+      </a>
+      <div class="dash-nav-right">
+        <span style="font-size:14px;color:var(--text-mid)" id="user-name"></span>
+        <div class="user-avatar" id="user-avatar" title="Your account">?</div>
+        <button class="btn btn-outline btn-sm" data-action="logout">Sign Out</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ═══════════════════════════════
+       MAIN CONTENT
+  ════════════════════════════════ -->
+  <main>
+    <div class="container">
+
+      <!-- ── Header ── -->
+      <header class="dash-header animate-fade-up">
+        <p class="dash-greeting" id="dash-greeting">Good morning,</p>
+        <h1 class="dash-title" id="user-name-heading">How are you today?</h1>
+        <p class="dash-date" id="dash-date"></p>
+      </header>
+
+      <!-- ── Mood Check-in strip ── -->
+      <div class="mood-strip animate-fade-up animate-delay-1">
+        <div class="mood-strip-label">
+          Mood Check-in
+          <span>How are you feeling right now?</span>
+        </div>
+        <div class="mood-options">
+          <button class="mood-btn" data-mood="😊 Happy">
+            😊
+            <span>Happy</span>
+          </button>
+          <button class="mood-btn" data-mood="😐 Neutral">
+            😐
+            <span>Neutral</span>
+          </button>
+          <button class="mood-btn" data-mood="😔 Sad">
+            😔
+            <span>Sad</span>
+          </button>
+          <button class="mood-btn" data-mood="😣 Stressed">
+            😣
+            <span>Stressed</span>
+          </button>
+        </div>
+        <span class="mood-saved" id="mood-saved-msg"></span>
+      </div>
+
+      <!-- ── Dashboard Grid ── -->
+      <div class="dash-grid">
+
+        <!-- 1. JOURNAL CARD (full width) -->
+        <div class="feat-card card-full">
+          <div class="feat-card-header">
+            <div>
+              <div class="feat-card-icon sage" style="margin-bottom:12px">📓</div>
+              <h3>Journal</h3>
+              <p class="card-desc">Write freely. This is your private space to express, reflect, and release.</p>
+            </div>
+            <span class="badge badge-sage">Private</span>
+          </div>
+          <div class="form-group" style="margin-bottom:0">
+            <textarea
+              id="journal-textarea"
+              class="form-textarea"
+              style="min-height:150px"
+              placeholder="What's on your mind today? There's no right or wrong way to begin…"
+            ></textarea>
+          </div>
+          <div class="journal-save-row">
+            <span class="journal-char-count" id="journal-char-count">0 characters</span>
+            <div style="display:flex;align-items:center;gap:12px">
+              <span class="journal-saved-msg" id="journal-saved-msg"></span>
+             <button class="btn btn-primary btn-sm" id="journal-save">Save Entry</button>
+            </div>
+          </div>
+        </div>
+        <div id="journal-list"></div>
+
+        <!-- 2. AI REFLECTION CARD -->
+        <div class="feat-card card-lavender">
+          <div class="feat-card-header">
+            <div class="feat-card-icon lavender">✨</div>
+          </div>
+          <h3>AI Reflection</h3>
+          <p class="card-desc">Share what's on your heart and receive a gentle, compassionate reflection.</p>
+
+          <div class="form-group">
+            <textarea
+              id="reflect-prompt"
+              class="form-textarea"
+              style="min-height:90px"
+              placeholder="How are you feeling? What's weighing on your mind?"
+            ></textarea>
+          </div>
+
+          <button class="btn btn-outline btn-sm" id="reflect-btn" style="margin-bottom:14px">
+            ✨ Get Reflection
+          </button>
+
+          <div class="ai-reflection-display" id="reflect-display">
+            Your personalized reflection will appear here…
+          </div>
+
+          <div class="ai-thinking" id="reflect-thinking">
+            <div class="ai-dot"></div>
+            <div class="ai-dot"></div>
+            <div class="ai-dot"></div>
+            <span>Reflecting…</span>
+          </div>
+        </div>
+
+        <!-- 3. BREATHING CARD -->
+        <div class="feat-card card-sky breathing-card">
+          <div class="feat-card-header">
+            <div class="feat-card-icon sky">🌬</div>
+            <span class="badge badge-sky">Exercise</span>
+          </div>
+          <h3>Breathing</h3>
+          <p class="card-desc">4-4-4 box breathing to calm your nervous system and centre yourself.</p>
+
+          <div class="breathing-circle-wrap">
+            <div class="breathing-ring"></div>
+            <div class="breathing-circle" id="breathing-circle">🌿</div>
+          </div>
+
+          <p class="breathing-phase" id="breathing-phase">Ready</p>
+          <p class="breathing-timer" id="breathing-timer"></p>
+          <p class="breathing-instruction" id="breathing-instr">Press start when you're ready</p>
+
+          <div class="breathing-progress">
+            <div class="bp-dot" title="Inhale"></div>
+            <div class="bp-dot" title="Hold"></div>
+            <div class="bp-dot" title="Exhale"></div>
+          </div>
+
+          <button class="btn btn-primary btn-sm" id="breathing-start">Start Breathing</button>
+          <button class="btn btn-rose btn-sm" id="breathing-stop" style="display:none">Stop</button>
+        </div>
+
+        <!-- 4. MEMORIES CARD -->
+        <div class="feat-card card-rose">
+          <div class="feat-card-header">
+            <div class="feat-card-icon rose">🌸</div>
+            <span class="badge badge-rose">History</span>
+          </div>
+          <h3>Memories</h3>
+          <p class="card-desc">Past reflections and journal summaries — your journey so far.</p>
+
+          <div class="memories-list" id="memories-list">
+            <div class="memories-placeholder">Loading your memories… 🌿</div>
+          </div>
+        </div>
+
+        <!-- 5. STATS ROW -->
+        <div class="dash-stats">
+          <div class="stat-card">
+            <div class="stat-val" id="stat-journals">0</div>
+            <div class="stat-label">Journal Entries</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-val" id="stat-streak">1</div>
+            <div class="stat-label">Day Streak 🔥</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-val" id="stat-sessions">0</div>
+            <div class="stat-label">Sessions</div>
+          </div>
+        </div>
+
+      </div><!-- /.dash-grid -->
+
+    </div><!-- /.container -->
+  </main>
+
+  <script src="js/script.js"></script>
+</body>
+</html>

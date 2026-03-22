@@ -7,11 +7,8 @@ from app import models, database
 import os
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
-
-# backend/app -> backend -> Mind-Detox-2026
-root_dir = os.path.dirname(os.path.dirname(current_dir))
-
-frontend_path = os.path.join(root_dir, "frontend")
+backend_dir = os.path.dirname(current_dir)
+frontend_path = os.path.join(backend_dir, "frontend")
 # Database tables create karna
 models.Base.metadata.create_all(bind=database.engine)
 
@@ -26,9 +23,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 app.mount("/app", StaticFiles(directory=frontend_path, html=True), name="static")# Routes include karna
-app.include_router(auth.router)
-app.include_router(journal.router)
-app.include_router(ai.router)
+app.include_router(auth.router,prefix="/api/v1")
+app.include_router(journal.router, prefix="/api/v1")
+app.include_router(ai.router, prefix="/api/v1",)
 @app.get("/")
 def read_root():
     return {"message" : "Welcome to the Mind Detox API"}

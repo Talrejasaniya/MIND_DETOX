@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Create Account — Mind Detox</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body data-page="signup">
+
+  <div class="auth-bg"></div>
+
+  <div class="auth-page">
+    <div class="auth-card">
+
+      <!-- Logo -->
+      <div class="auth-logo">
+        <div class="auth-logo-circle">🌸</div>
+        <h1>Mind Detox</h1>
+        <p>Begin your wellness journey today</p>
+      </div>
+
+      <!-- Form -->
+      <form id="signup-form" novalidate>
+
+        <div class="form-group">
+          <label class="form-label" for="name">Your Name</label>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            class="form-input"
+            placeholder="How should we call you?"
+            autocomplete="name"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="email">Email</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            class="form-input"
+            placeholder="you@example.com"
+            autocomplete="email"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="password">Password</label>
+          <div class="password-toggle">
+            <input
+              type="password"
+              id="password"
+              name="password"
+              class="form-input"
+              placeholder="Minimum 8 characters"
+              autocomplete="new-password"
+              required
+              minlength="6"
+            />
+            <button type="button" class="toggle-pwd-btn" aria-label="Toggle password visibility">👁</button>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-full mt-2" style="font-size:15px;padding:14px">
+          Create Account
+        </button>
+
+      </form>
+
+      <div class="auth-divider">or</div>
+
+      <a href="login.html" class="btn btn-outline btn-full" style="font-size:15px;padding:13px">
+        Sign in to existing account
+      </a>
+
+      <p class="auth-footer-text">
+        <a href="index.html" style="color:var(--text-light);font-weight:400">← Back to home</a>
+      </p>
+
+    </div>
+  </div>
+
+  <script src="js/script.js"></script>
+</body>
+</html>

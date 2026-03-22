@@ -7,7 +7,7 @@ from fastapi.testclient import TestClient
 from dotenv import load_dotenv
 import os 
 load_dotenv()
-SQLALCHEMY_DATABASE_URL_TEST = os.getenv("SQLALCHEMY_DATABASE_URL_TEST")
+SQLALCHEMY_DATABASE_URL_TEST = os.getenv("SQLALCHEMY_DATABASE_URL_TEST","")
 
 engine = create_engine(SQLALCHEMY_DATABASE_URL_TEST)
 TestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
