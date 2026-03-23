@@ -335,7 +335,6 @@ function initDashboard() {
   });
 
   initMoodCheckin();
-  initJournal();
   initAIReflection();
   initMemories();
   initBreathing();
@@ -377,47 +376,7 @@ function initMoodCheckin() {
 }
 
 /* ── JOURNAL ── */
-async function initJournal() {
-  const saveBtn = document.getElementById('journal-save');
 
-  saveBtn.addEventListener('click', async () => {
-    const text = document.getElementById('journal-textarea').value;
-
-    if (!text) return showToast("Nothing to save! 🌿");
-
-    try {
-      const res = await fetch(`${API_BASE_URL}/journals/`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          ...getAuthHeader()
-        },
-        body: JSON.stringify({ content: text })
-      });
-
-      if (!res.ok) {
-        const errText = await res.text();
-        console.error("Journal error:", errText);
-        return showToast("Save failed ❌", 'rose');
-      }
-
-      const data = await res.json();
-
-      showToast("Journal saved 🌿");
-      initJournalList();
-      document.getElementById('journal-textarea').value = "";
-
-      // optional (only if exists)
-      if (typeof initJournalList === "function") {
-        initJournalList();
-      }
-
-    } catch (err) {
-      console.error("Fetch error:", err);
-      showToast("Something broke ⚠️", 'rose');
-    }
-  });
-}
 async function initJournalList() {
   const container = document.getElementById("journal-list");
   if (!container) return;
@@ -445,9 +404,9 @@ container.innerHTML = journals.map(j => `
       <button class="dots-btn" onclick="toggleMenu(event, '${j.id}')">⋮</button>
       
       <div id="menu-${j.id}" class="dropdown-menu">
-        <button onclick="handleEditStart('${j.id}', \`${j.content.replace(/`/g, '\\`')}\`)">✏️ Edit</button>
-        <button onclick="handleDeleteJournal('${j.id}')" class="text-rose">🗑️ Delete</button>
-        <button onclick="saveMemory('${j.id}')">🌸 Save to Memory</button>
+        <button onclick="handleEditStart('${j.id}', \`${j.content.replace(/`/g, '\\`')}\`)"class="btn btn-primary btn-sm">✏️ Edit</button>
+        <button onclick="handleDeleteJournal('${j.id}')" class="btn btn-primary btn-sm">🗑️ Delete</button>
+        <button onclick="saveMemory('${j.id}')"class="btn btn-primary btn-sm">🌸 Save to Memory</button>
       </div>
     </div>
   </div>
@@ -455,6 +414,27 @@ container.innerHTML = journals.map(j => `
 
   } catch (err) {
     console.error("Journal list fetch failed:", err);
+  }
+}
+async function completeJournalCreate(text) {
+  try {
+    const res = await fetch(`${API_BASE_URL}/journals/`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        ...getAuthHeader()
+      },
+      body: JSON.stringify({ content: text })
+    });
+
+    if (!res.ok) throw new Error("Save failed");
+
+    showToast("Journal saved 🌿");
+    resetJournalArea();
+    initJournalList();
+
+  } catch (err) {
+    showToast(err.message, "rose");
   }
 }
 // Menu kholne aur band karne ke liye
