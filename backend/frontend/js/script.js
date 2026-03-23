@@ -5,6 +5,7 @@ const getAuthHeader = () => {
     console.log("USER:", user); 
     return user && user.token ? { 'Authorization': `Bearer ${user.token}` } : {};
 };
+
 /**
  * Show a toast notification
  * @param {string} message
@@ -769,7 +770,7 @@ function initDashStats() {
 
 document.addEventListener('DOMContentLoaded', () => {
   const page = document.body.dataset.page;
-
+   initSidebar();
   switch (page) {
     case 'index':     initIndexPage();  break;
     case 'login':     initLoginPage();  break;
@@ -795,3 +796,22 @@ document.addEventListener('DOMContentLoaded', () => {
     observer.observe(card);
   });
 });
+function initSidebar() {
+  const toggle = document.getElementById("menu-toggle");
+  const sidebar = document.getElementById("sidebar");
+  const overlay = document.getElementById("overlay");
+
+  if (!toggle || !sidebar) return;
+
+  toggle.addEventListener("click", () => {
+    sidebar.classList.toggle("open");
+    if (overlay) overlay.classList.toggle("show");
+  });
+
+  if (overlay) {
+    overlay.addEventListener("click", () => {
+      sidebar.classList.remove("open");
+      overlay.classList.remove("show");
+    });
+  }
+}
