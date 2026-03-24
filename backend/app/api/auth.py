@@ -58,3 +58,17 @@ async def login(db: Session = Depends(get_db), user_credentials: OAuth2PasswordR
 @router.get("/users/me", response_model=schemas.UserResponse)
 async def read_users_me(current_user: models.User = Depends(get_current_user)):
     return current_user
+
+@router.delete("/users/me", status_code=status.HTTP_204_NO_CONTENT)
+def delete_user_account(
+    db: Session = Depends(get_db), 
+    current_user: models.User = Depends(get_current_user) # FIX: 'oauth2.' hata diya kyunki direct import hai
+):
+    # 1. Journals saaf karein
+    db.query(models.JournalEntry).filter(models.JournalEntry.user_id == current_user.id).delete()
+    
+    # 2. User delete karein
+    db.delete(current_user)
+    db.commit()
+    
+    return None
