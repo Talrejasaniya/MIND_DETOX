@@ -8,7 +8,7 @@ import os
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
 backend_dir = os.path.dirname(current_dir)
-frontend_path = os.path.join(backend_dir, "frontend")
+frontend_path = os.path.join(backend_dir,"..", "frontend")
 # Database tables create karna
 models.Base.metadata.create_all(bind=database.engine)
 
@@ -22,7 +22,7 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-app.mount("/app", StaticFiles(directory=frontend_path, html=True), name="static")# Routes include karna
+app.mount("/", StaticFiles(directory=frontend_path, html=True), name="static")# Routes include karna
 app.include_router(auth.router,prefix="/api/v1")
 app.include_router(journal.router, prefix="/api/v1")
 app.include_router(ai.router, prefix="/api/v1",)
