@@ -8,132 +8,112 @@
 </head>
 <body data-page="index">
 
-  <!-- ═══════════════════════════════
-       HERO SECTION
-  ════════════════════════════════ -->
-  <section class="hero">
-    <div class="hero-bg"></div>
-    <div class="hero-blob hero-blob-1"></div>
-    <div class="hero-blob hero-blob-2"></div>
-    <div class="hero-blob hero-blob-3"></div>
+  <div class="hero">
 
-    <!-- Navbar inside hero -->
+    <!-- Navbar -->
     <div class="hero-navbar">
       <div class="container">
         <a href="index.html" class="nav-brand">
           <div class="nav-logo">🌿</div>
           <span class="nav-name">Mind Detox</span>
         </a>
-        <nav class="nav-links">
-          <a href="login.html" class="btn btn-outline btn-sm">Sign In</a>
+        <div class="nav-links" id="nav-links">
+          <a href="login.html"  class="btn btn-ghost  btn-sm">Sign In</a>
           <a href="signup.html" class="btn btn-primary btn-sm">Get Started</a>
-        </nav>
-      </div>
-    </div>
-
-    <!-- Hero Content -->
-    <div class="hero-content">
-      <div class="container">
-        <div class="hero-inner">
-
-          <div class="hero-eyebrow">
-            <span>🌸</span>
-            <span>Your gentle daily wellness companion</span>
-          </div>
-
-          <h1 class="hero-title">
-            Clear your mind,<br><em>nurture your soul</em>
-          </h1>
-
-          <p class="hero-subtitle">
-            Mind Detox helps you process emotions, reflect with AI guidance, and build a
-            calmer, more mindful version of yourself — one gentle day at a time.
-          </p>
-
-          <div class="hero-cta">
-            <a href="signup.html" class="btn btn-primary btn-lg">Begin Your Journey</a>
-            <a href="login.html" class="btn btn-outline btn-lg">Sign In</a>
-          </div>
-
         </div>
       </div>
     </div>
 
-    <!-- Try without login -->
+    <!-- Hero -->
+    <div class="hero-content">
+      <div class="hero-inner">
+        <div class="hero-eyebrow">🌿 A quiet space for your mind</div>
+        <h1 class="hero-title">
+          Detox your mind,<br/><em>nourish your soul</em>
+        </h1>
+        <p class="hero-subtitle">
+          Journal your thoughts, receive AI-powered reflections, and build
+          mindful habits — all in one calm, private space.
+        </p>
+        <div class="hero-cta">
+          <a href="signup.html" class="btn btn-primary btn-lg">Start for free</a>
+          <a href="login.html"  class="btn btn-outline btn-lg">Sign in</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Try it section -->
     <div class="hero-try-section">
       <div class="container">
-        <p class="section-label">✦ Try before you sign up</p>
-        <h2>Explore Mind Detox</h2>
-        <p class="try-subtitle">Experience two of our core features — no account needed.</p>
+        <span class="section-label" style="text-align:center;display:block">Try it now — no account needed</span>
+        <h2>Experience Mind Detox</h2>
+        <p class="try-subtitle">Two free tries for each feature, then sign up to unlock everything.</p>
 
         <div class="try-cards">
-
-          <!-- Try Journal -->
-          <div class="try-card animate-fade-up animate-delay-1">
+          <!-- Guest Journal -->
+          <div class="try-card sage-card">
             <div class="try-card-icon sage">📓</div>
-            <h3>Journal</h3>
-            <p>Write freely. Let your thoughts breathe on the page without judgment.</p>
-            <span class="uses-left" id="uses-journal"></span>
+            <h3>Quick Journal</h3>
+            <p>Write a thought and see how it feels to put it into words.</p>
             <div class="try-area">
-              <textarea id="try-journal-input" placeholder="What's on your mind today?"></textarea>
+              <textarea id="try-journal-input" placeholder="What's on your mind right now?"></textarea>
               <button class="btn btn-primary btn-sm" id="try-journal-btn">Save Thought</button>
-              <div class="try-response" id="try-journal-resp"></div>
             </div>
+            <div class="try-response" id="try-journal-resp"></div>
+            <p class="uses-left" id="uses-journal"></p>
           </div>
 
-          <!-- Try AI Reflection -->
-          <div class="try-card animate-fade-up animate-delay-2">
+          <!-- Guest AI Reflection -->
+          <div class="try-card lavender-card">
             <div class="try-card-icon lavender">✨</div>
             <h3>AI Reflection</h3>
-            <p>This reflection is generated to help you pause and notice your feelings.</p>
-            <span class="uses-left" id="uses-reflection"></span>
+            <p>Share a feeling — our AI reflects it back with compassion.</p>
             <div class="try-area">
-              <textarea id="try-reflect-input" placeholder="How are you feeling right now?"></textarea>
+              <textarea id="try-reflect-input" placeholder="How are you feeling today?"></textarea>
               <button class="btn btn-outline btn-sm" id="try-reflect-btn">Get Reflection</button>
-              <div class="try-response" id="try-reflect-resp"></div>
             </div>
+            <div class="try-response" id="try-reflect-resp"></div>
+            <p class="uses-left" id="uses-reflection"></p>
           </div>
-
         </div>
       </div>
     </div>
 
-    <!-- Features strip -->
+    <!-- Features -->
     <div class="features-strip">
       <div class="container">
         <div class="features-grid">
           <div class="feature-item">
-            <div class="fi-icon">😌</div>
-            <h4>Mood Check-in</h4>
-            <p>Track how you feel each day with a simple, gentle check-in.</p>
-          </div>
-          <div class="feature-item">
             <div class="fi-icon">📓</div>
-            <h4>Journaling</h4>
-            <p>A private space to express, process and release your thoughts.</p>
+            <h4>Private Journal</h4>
+            <p>Write freely. Your thoughts are encrypted and yours alone.</p>
           </div>
           <div class="feature-item">
             <div class="fi-icon">✨</div>
             <h4>AI Reflection</h4>
-            <p>Compassionate, AI-guided reflections tailored to your feelings.</p>
+            <p>Receive a gentle, compassionate mirror for your feelings.</p>
+          </div>
+          <div class="feature-item">
+            <div class="fi-icon">🌸</div>
+            <h4>Memory Archive</h4>
+            <p>Save meaningful entries and revisit your growth over time.</p>
           </div>
           <div class="feature-item">
             <div class="fi-icon">🌬</div>
             <h4>Breathing</h4>
-            <p>Calm your nervous system with guided breathing exercises.</p>
+            <p>4-4-4 box breathing to calm and centre yourself anytime.</p>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Footer -->
     <footer class="hero-footer">
       <div class="container">
-        <p>© 2025 Mind Detox &nbsp;·&nbsp; Made with 🌿 for your wellbeing</p>
+        <p>© 2025 Mind Detox — A space to breathe, reflect, and grow.</p>
       </div>
     </footer>
 
-  </section>
+  </div>
 
   <script src="js/script.js"></script>
 </body>

@@ -6,200 +6,146 @@
   <title>Dashboard — Mind Detox</title>
   <link rel="stylesheet" href="css/styles.css" />
 </head>
-<body data-page="dashboard" class="dashboard">
-  <button class="hamburger" id="menu-toggle">☰</button>
+<div id="confirm-modal" class="modal-overlay">
+  <div class="modal-card">
+    <div class="modal-icon">⚠️</div>
+    <h3 id="confirm-title">Are you sure?</h3>
+    <p id="confirm-msg">This action cannot be undone.</p>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" id="confirm-cancel">Cancel</button>
+      <button class="btn btn-danger" id="confirm-ok">Yes, Delete</button>
+    </div>
+  </div>
+</div>
+<body class="app-page" data-page="dashboard">
 
-<aside class="sidebar" id="sidebar">
-  <a href="dashboard.html">Dashboard</a>
-  <a href="journal.html">Journal</a>
-  <a href="reflection.html">AI Reflection</a>
-  <a href="breathing.html">Breathing</a>
-  <a href="memories.html">Memories</a>
-</aside>
-
-  <!-- ═══════════════════════════════
-       NAVIGATION
-  ════════════════════════════════ -->
-  <nav class="dash-nav">
-    <div class="container">
-      <a href="index.html" class="nav-brand">
-        <div class="nav-logo">🌿</div>
-        <span class="nav-name">Mind Detox</span>
-      </a>
-      <div class="dash-nav-right">
-        <span style="font-size:14px;color:var(--text-mid)" id="user-name"></span>
-        <div class="user-avatar" id="user-avatar" title="Your account">?</div>
-        <button class="btn btn-outline btn-sm" data-action="logout">Sign Out</button>
+  <!-- ═══════════════════════════════════════
+       SIDEBAR
+  ═══════════════════════════════════════ -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <div class="sidebar-brand-logo">🌿</div>
+      <div>
+        <span class="sidebar-brand-name">Mind Detox</span>
+        <span class="sidebar-brand-sub">Your quiet space</span>
       </div>
     </div>
-  </nav>
 
-  <!-- ═══════════════════════════════
-       MAIN CONTENT
-  ════════════════════════════════ -->
-  <main>
-    <div class="container">
+    <nav class="sidebar-nav">
+      <a href="dashboard.html"  class="sidebar-link" data-page="dashboard">
+        <span class="link-icon">🏠</span> Dashboard
+      </a>
+      <a href="reflection.html" class="sidebar-link" data-page="reflection">
+        <span class="link-icon">✨</span> AI Reflection
+      </a>
+      <a href="memories.html"   class="sidebar-link" data-page="memories">
+        <span class="link-icon">🌸</span> Memories
+      </a>
+      <a href="reflection.html#breathing" class="sidebar-link" data-page="breathing">
+        <span class="link-icon">🌬</span> Breathing
+      </a>
+    </nav>
 
-      <!-- ── Header ── -->
-      <header class="dash-header animate-fade-up">
-        <p class="dash-greeting" id="dash-greeting">Good morning,</p>
-        <h1 class="dash-title" id="user-name-heading">How are you today?</h1>
-        <p class="dash-date" id="dash-date"></p>
-      </header>
+    <div class="sidebar-footer">
+      <button class="sidebar-link btn-full" data-action="logout">
+        <span class="link-icon">↩</span> Sign Out
+      </button>
+    </div>
+  </aside>
+  <div class="sidebar-overlay" id="sidebar-overlay"></div>
 
-      <!-- ── Mood Check-in strip ── -->
-      <div class="mood-strip animate-fade-up animate-delay-1">
+  <!-- ═══════════════════════════════════════
+       MAIN AREA
+  ═══════════════════════════════════════ -->
+  <div class="app-main">
+
+    <header class="topbar">
+      <div class="topbar-left">
+        <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Open menu">☰</button>
+        <span class="topbar-title">Dashboard</span>
+      </div>
+      <div class="topbar-right">
+        <span class="topbar-user-name" id="user-name"></span>
+        <div class="user-avatar" id="user-avatar">?</div>
+<button class="btn btn-danger btn-sm" data-action="delete-account">Delete Account</button>      
+</div>
+    </header>
+
+    <main class="page-content">
+
+      <!-- Greeting -->
+      <div class="page-header fade-up">
+        <h1 class="page-greeting" id="dash-greeting">Good morning, Friend 👋</h1>
+        <p class="page-date" id="dash-date"></p>
+      </div>
+
+      <!-- Mood Check-in -->
+      <div class="mood-strip fade-up-1">
         <div class="mood-strip-label">
           Mood Check-in
           <span>How are you feeling right now?</span>
         </div>
         <div class="mood-options">
-          <button class="mood-btn" data-mood="😊 Happy">
-            😊
-            <span>Happy</span>
-          </button>
-          <button class="mood-btn" data-mood="😐 Neutral">
-            😐
-            <span>Neutral</span>
-          </button>
-          <button class="mood-btn" data-mood="😔 Sad">
-            😔
-            <span>Sad</span>
-          </button>
-          <button class="mood-btn" data-mood="😣 Stressed">
-            😣
-            <span>Stressed</span>
-          </button>
+          <button class="mood-btn" data-mood="😊 Happy">😊 <span>Happy</span></button>
+          <button class="mood-btn" data-mood="😐 Neutral">😐 <span>Neutral</span></button>
+          <button class="mood-btn" data-mood="😔 Sad">😔 <span>Sad</span></button>
+          <button class="mood-btn" data-mood="😣 Stressed">😣 <span>Stressed</span></button>
+          <button class="mood-btn" data-mood="😌 Calm">😌 <span>Calm</span></button>
         </div>
         <span class="mood-saved" id="mood-saved-msg"></span>
       </div>
 
-      <!-- ── Dashboard Grid ── -->
-      <div class="dash-grid">
-
-        <!-- 1. JOURNAL CARD (full width) -->
-        <div class="feat-card card-full">
-          <div class="feat-card-header">
-            <div>
-              <div class="feat-card-icon sage" style="margin-bottom:12px">📓</div>
-              <h3>Journal</h3>
-              <p class="card-desc">Write freely. This is your private space to express, reflect, and release.</p>
-            </div>
-            <span class="badge badge-sage">Private</span>
+      <!-- Journal Editor -->
+      <div class="journal-editor-card fade-up-2" id="journal-editor-card">
+        <div class="journal-editor-header">
+          <div class="feat-card-icon sage">📓</div>
+          <div>
+            <h3 class="journal-editor-title">Write a Journal Entry</h3>
+            <p class="journal-editor-sub">Your private space — express freely.</p>
           </div>
-          <div class="form-group" style="margin-bottom:0">
-            <textarea
-              id="journal-textarea"
-              class="form-textarea"
-              style="min-height:150px"
-              placeholder="What's on your mind today? There's no right or wrong way to begin…"
-            ></textarea>
-          </div>
-          <div class="journal-save-row">
-            <span class="journal-char-count" id="journal-char-count">0 characters</span>
-            <div style="display:flex;align-items:center;gap:12px">
-              <span class="journal-saved-msg" id="journal-saved-msg"></span>
-             <button class="btn btn-primary btn-sm" id="journal-save">Save Entry</button>
-            </div>
-          </div>
-        </div>
-        <div id="journal-list"></div>
-
-        <!-- 2. AI REFLECTION CARD -->
-        <div class="feat-card card-lavender">
-          <div class="feat-card-header">
-            <div class="feat-card-icon lavender">✨</div>
-          </div>
-          <h3>AI Reflection</h3>
-          <p class="card-desc">Share what's on your heart and receive a gentle, compassionate reflection.</p>
-
-          <div class="form-group">
-            <textarea
-              id="reflect-prompt"
-              class="form-textarea"
-              style="min-height:90px"
-              placeholder="How are you feeling? What's weighing on your mind?"
-            ></textarea>
-          </div>
-
-          <button class="btn btn-outline btn-sm" id="reflect-btn" style="margin-bottom:14px">
-            ✨ Get Reflection
-          </button>
-
-          <div class="ai-reflection-display" id="reflect-display">
-            Your personalized reflection will appear here…
-          </div>
-
-          <div class="ai-thinking" id="reflect-thinking">
-            <div class="ai-dot"></div>
-            <div class="ai-dot"></div>
-            <div class="ai-dot"></div>
-            <span>Reflecting…</span>
-          </div>
+          <span class="badge badge-sage" style="margin-left:auto">Private</span>
         </div>
 
-        <!-- 3. BREATHING CARD -->
-        <div class="feat-card card-sky breathing-card">
-          <div class="feat-card-header">
-            <div class="feat-card-icon sky">🌬</div>
-            <span class="badge badge-sky">Exercise</span>
-          </div>
-          <h3>Breathing</h3>
-          <p class="card-desc">4-4-4 box breathing to calm your nervous system and centre yourself.</p>
+        <textarea
+          id="journal-textarea"
+          class="journal-textarea"
+          placeholder="What's on your mind today? There's no right or wrong way to begin…"
+        ></textarea>
 
-          <div class="breathing-circle-wrap">
-            <div class="breathing-ring"></div>
-            <div class="breathing-circle" id="breathing-circle">🌿</div>
-          </div>
-
-          <p class="breathing-phase" id="breathing-phase">Ready</p>
-          <p class="breathing-timer" id="breathing-timer"></p>
-          <p class="breathing-instruction" id="breathing-instr">Press start when you're ready</p>
-
-          <div class="breathing-progress">
-            <div class="bp-dot" title="Inhale"></div>
-            <div class="bp-dot" title="Hold"></div>
-            <div class="bp-dot" title="Exhale"></div>
-          </div>
-
-          <button class="btn btn-primary btn-sm" id="breathing-start">Start Breathing</button>
-          <button class="btn btn-rose btn-sm" id="breathing-stop" style="display:none">Stop</button>
-        </div>
-
-        <!-- 4. MEMORIES CARD -->
-        <div class="feat-card card-rose">
-          <div class="feat-card-header">
-            <div class="feat-card-icon rose">🌸</div>
-            <span class="badge badge-rose">History</span>
-          </div>
-          <h3>Memories</h3>
-          <p class="card-desc">Past reflections and journal summaries — your journey so far.</p>
-
-          <div class="memories-list" id="memories-list">
-            <div class="memories-placeholder">Loading your memories… 🌿</div>
+        <div class="journal-editor-footer">
+          <span class="journal-char-count" id="journal-char-count"></span>
+          <div class="journal-editor-actions">
+            <button class="btn btn-ghost btn-sm" id="journal-cancel" style="display:none">Cancel</button>
+            <button class="btn btn-primary btn-sm" id="journal-save">Save Entry</button>
           </div>
         </div>
+      </div>
 
-        <!-- 5. STATS ROW -->
-        <div class="dash-stats">
-          <div class="stat-card">
-            <div class="stat-val" id="stat-journals">0</div>
-            <div class="stat-label">Journal Entries</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-val" id="stat-streak">1</div>
-            <div class="stat-label">Day Streak 🔥</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-val" id="stat-sessions">0</div>
-            <div class="stat-label">Sessions</div>
-          </div>
+      <!-- Journal List -->
+      <div class="journal-list-wrap fade-up-3">
+        <div class="journal-list-header">
+          <h3 class="section-title">Your Entries</h3>
+          <span class="section-label" style="margin:0">Click ⋮ to edit, delete, or save to memory</span>
         </div>
+        <div id="journal-list">
+          <p class="list-loading">Loading entries…</p>
+        </div>
+      </div>
 
-      </div><!-- /.dash-grid -->
+      <!-- Stats -->
+      <div class="stats-strip">
+        <div class="stat-card">
+          <div class="stat-val" id="stat-streak">1</div>
+          <div class="stat-label">🔥 Day Streak</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-val" id="stat-sessions">0</div>
+          <div class="stat-label">🧘 Sessions</div>
+        </div>
+      </div>
 
-    </div><!-- /.container -->
-  </main>
+    </main>
+  </div>
 
   <script src="js/script.js"></script>
 </body>

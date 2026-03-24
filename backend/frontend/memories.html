@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Memories — Mind Detox</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<div id="confirm-modal" class="modal-overlay">
+  <div class="modal-card">
+    <div class="modal-icon">⚠️</div>
+    <h3 id="confirm-title">Are you sure?</h3>
+    <p id="confirm-msg">This action cannot be undone.</p>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" id="confirm-cancel">Cancel</button>
+      <button class="btn btn-danger" id="confirm-ok">Yes, Delete</button>
+    </div>
+  </div>
+</div>
+<body class="app-page" data-page="memories">
+
+  <!-- ═══════════════════════════════════════
+       SIDEBAR
+  ═══════════════════════════════════════ -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <div class="sidebar-brand-logo">🌿</div>
+      <div>
+        <span class="sidebar-brand-name">Mind Detox</span>
+        <span class="sidebar-brand-sub">Your quiet space</span>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a href="dashboard.html"  class="sidebar-link" data-page="dashboard">
+        <span class="link-icon">🏠</span> Dashboard
+      </a>
+      <a href="reflection.html" class="sidebar-link" data-page="reflection">
+        <span class="link-icon">✨</span> AI Reflection
+      </a>
+      <a href="memories.html"   class="sidebar-link" data-page="memories">
+        <span class="link-icon">🌸</span> Memories
+      </a>
+      <a href="reflection.html#breathing" class="sidebar-link" data-page="breathing">
+        <span class="link-icon">🌬</span> Breathing
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <button class="sidebar-link btn-full" data-action="logout">
+        <span class="link-icon">↩</span> Sign Out
+      </button>
+    </div>
+  </aside>
+  <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+  <!-- ═══════════════════════════════════════
+       MAIN AREA
+  ═══════════════════════════════════════ -->
+  <div class="app-main">
+
+    <header class="topbar">
+      <div class="topbar-left">
+        <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Open menu">☰</button>
+        <span class="topbar-title">Memories</span>
+      </div>
+      <div class="topbar-right">
+        <span class="topbar-user-name" id="user-name"></span>
+        <div class="user-avatar" id="user-avatar">?</div>
+<button class="btn btn-danger btn-sm" data-action="delete-account">Delete Account</button>      </div>
+    
+    </header>
+
+    <main class="page-content">
+
+      <div class="page-header fade-up">
+        <h1 class="page-greeting">Your Memories 🌸</h1>
+        <p class="page-date">Journal summaries you've saved — your journey so far.</p>
+      </div>
+
+      <div class="feat-card card-rose fade-up-1">
+        <div class="feat-card-header">
+          <div class="feat-card-icon rose">🌸</div>
+          <span class="badge badge-rose">Saved summaries</span>
+        </div>
+        <h3>Memory Archive</h3>
+        <p class="card-desc">
+          These are AI-generated summaries of your journal entries. Save a journal entry to memory from
+          the Dashboard using the ⋮ menu → <strong>Save to Memory</strong>.
+        </p>
+
+        <!-- Memories list rendered by JS -->
+        <div class="memories-grid" id="memories-list">
+          <p class="list-loading">Loading memories…</p>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <script src="js/script.js"></script>
+</body>
+</html>

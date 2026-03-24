@@ -8,65 +8,39 @@
 </head>
 <body data-page="signup">
 
-  <div class="auth-bg"></div>
-
   <div class="auth-page">
     <div class="auth-card">
 
-      <!-- Logo -->
       <div class="auth-logo">
         <div class="auth-logo-circle">🌸</div>
         <h1>Mind Detox</h1>
         <p>Begin your wellness journey today</p>
       </div>
 
-      <!-- Form -->
       <form id="signup-form" novalidate>
 
         <div class="form-group">
           <label class="form-label" for="name">Your Name</label>
-          <input
-            type="text"
-            id="name"
-            name="name"
-            class="form-input"
-            placeholder="How should we call you?"
-            autocomplete="name"
-            required
-          />
+          <input type="text" id="name" name="name" class="form-input"
+            placeholder="How should we call you?" autocomplete="name" required />
         </div>
 
         <div class="form-group">
           <label class="form-label" for="email">Email</label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            class="form-input"
-            placeholder="you@example.com"
-            autocomplete="email"
-            required
-          />
+          <input type="email" id="email" name="email" class="form-input"
+            placeholder="you@example.com" autocomplete="email" required />
         </div>
 
         <div class="form-group">
           <label class="form-label" for="password">Password</label>
           <div class="password-toggle">
-            <input
-              type="password"
-              id="password"
-              name="password"
-              class="form-input"
-              placeholder="Minimum 8 characters"
-              autocomplete="new-password"
-              required
-              minlength="6"
-            />
-            <button type="button" class="toggle-pwd-btn" aria-label="Toggle password visibility">👁</button>
+            <input type="password" id="password" name="password" class="form-input"
+              placeholder="Minimum 8 characters" autocomplete="new-password" required minlength="8" />
+            <button type="button" class="toggle-pwd-btn" aria-label="Toggle password">👁</button>
           </div>
         </div>
 
-        <button type="submit" class="btn btn-primary btn-full mt-2" style="font-size:15px;padding:14px">
+        <button type="submit" class="btn btn-primary btn-full mt-2" style="padding:13px;font-size:15px">
           Create Account
         </button>
 
@@ -74,7 +48,7 @@
 
       <div class="auth-divider">or</div>
 
-      <a href="login.html" class="btn btn-outline btn-full" style="font-size:15px;padding:13px">
+      <a href="login.html" class="btn btn-outline btn-full" style="padding:12px;font-size:15px">
         Sign in to existing account
       </a>
 
