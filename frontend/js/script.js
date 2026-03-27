@@ -838,8 +838,7 @@ async function initSignupPage() {
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
     const btn      = form.querySelector('[type="submit"]');
-    const name     = document.getElementById('name').value;
-    const email    = document.getElementById('email').value;
+    const username = document.getElementById('name').value;    const email    = document.getElementById('email').value;
     const password = document.getElementById('password').value;
 
     btn.disabled = true; btn.textContent = 'Creating account…';
@@ -848,7 +847,7 @@ async function initSignupPage() {
       const res = await fetch(`${API_BASE_URL}/signup`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email, password })
+        body: JSON.stringify({ username, email, password }) // Key badal kar 'username' kar di
       });
       if (!res.ok) throw new Error('Signup failed');
       showToast('Account created! Sign in now 🌸');

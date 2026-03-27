@@ -5,7 +5,7 @@ from typing import Optional
 
 class UserCreate(BaseModel):
     email: EmailStr
-    username: str
+    name: str
     password: str  = Field(..., min_length=8, max_length=72)
 
 class UserResponse(BaseModel):
