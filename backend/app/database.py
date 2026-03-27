@@ -1,10 +1,13 @@
 import os
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
+import sys
 
 
 DATABASE_URL = os.getenv("DATABASE_URL")
-
+if not DATABASE_URL:
+    print("❌ ERROR: DATABASE_URL is missing in Render Environment Variables!")
+    sys.exit(1)
 if DATABASE_URL:
     print(f"DEBUG: Database URL found! Starts with: {DATABASE_URL[:15]}...")
 else:
