@@ -1,22 +1,20 @@
 import os
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
-from dotenv import load_dotenv
 
-load_dotenv()
-
-# 1. URL uthaiye
+# 1. Direct environment variable uthaiye (Render dashboard se)
 DATABASE_URL = os.getenv("DATABASE_URL")
 
-# 🧐 Pragmatic Check: Agar URL nahi hai toh error de do, localhost par mat jao
+# 🧐 Pragmatic Check: Agar URL nahi hai toh app ko wahi rok do
 if not DATABASE_URL:
-    raise ValueError("CRITICAL ERROR: DATABASE_URL not found in environment variables!")
+    raise ValueError("Saniya, DATABASE_URL Render dashboard mein missing hai!")
 
-# 2. Render Postgres fix (Kabhi kabhi Render 'postgres://' deta hai, SQLAlchemy ko 'postgresql://' chahiye)
+# 🚨 Render Fix: 'postgres://' ko 'postgresql://' mein badalna zaroori hai
 if DATABASE_URL.startswith("postgres://"):
     DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1)
 
-# 3. Engine banaiye
+# 2. Engine Create karein
+# Port 5000 ka jhamela yahan se khatam ho jayega
 engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
