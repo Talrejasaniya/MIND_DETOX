@@ -4,7 +4,6 @@ from fastapi.staticfiles import StaticFiles
 from app.api import auth, journal, ai
 from app import models, database
 import os
-
 # 1. Path Setup (More robust)
 current_file_path = os.path.abspath(__file__) # backend/app/main.py
 app_dir = os.path.dirname(current_file_path)   # backend/app
