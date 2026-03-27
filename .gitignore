@@ -7,7 +7,7 @@ backend/.env
 backend/.venv/
 backend/.pytest_cache/
 backend/app/api/__pycache__/
-backend/tests
+backend/tests/
 
 # User-specific
 .vscode/
