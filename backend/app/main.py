@@ -8,7 +8,7 @@ import os
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
 backend_dir = os.path.dirname(current_dir)
-frontend_path = os.path.join(backend_dir,"..", "frontend")
+frontend_path = os.path.join(backend_dir, "frontend")
 # Database tables create karna
 models.Base.metadata.create_all(bind=database.engine)
 
