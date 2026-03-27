@@ -22,10 +22,11 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-app.mount("/app", StaticFiles(directory=frontend_path, html=True), name="static")# Routes include karna
 app.include_router(auth.router,prefix="/api/v1")
 app.include_router(journal.router, prefix="/api/v1")
 app.include_router(ai.router, prefix="/api/v1",)
+app.mount("/", StaticFiles(directory=frontend_path, html=True), name="static")# Routes include karna
+
 @app.get("/")
 def read_root():
     return {"message" : "Welcome to the Mind Detox API"}
