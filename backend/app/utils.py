@@ -16,7 +16,7 @@ def verify_password(plain_password, hashed_password):
 
 SECRET_KEY = os.getenv("SECRET_KEY")
 ALGORITHM = os.getenv("ALGORITHM")
-ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES", 15))
+ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES",5760))
 
 if not SECRET_KEY or not ALGORITHM:
     raise ValueError("SECRET_KEY and ALGORITHM environment variables must be set")
