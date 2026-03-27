@@ -1,17 +1,26 @@
-import os 
-from sqlalchemy import create_engine 
-from sqlalchemy.orm import declarative_base
-from sqlalchemy.orm import sessionmaker
+import os
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker, declarative_base
 from dotenv import load_dotenv
-from typing import cast
 
 load_dotenv()
 
-DATABASE_URL=os.getenv("DATABASE_URL")
+# 1. URL uthaiye
+DATABASE_URL = os.getenv("DATABASE_URL")
 
-db_url = cast(str, os.getenv("DATABASE_URL"))
-engine = create_engine(db_url)
-SessionLocal = sessionmaker(autocommit=False,autoflush=False,bind=engine)
+# 🧐 Pragmatic Check: Agar URL nahi hai toh error de do, localhost par mat jao
+if not DATABASE_URL:
+    raise ValueError("CRITICAL ERROR: DATABASE_URL not found in environment variables!")
+
+# 2. Render Postgres fix (Kabhi kabhi Render 'postgres://' deta hai, SQLAlchemy ko 'postgresql://' chahiye)
+if DATABASE_URL.startswith("postgres://"):
+    DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1)
+
+# 3. Engine banaiye
+engine = create_engine(DATABASE_URL)
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+
+Base = declarative_base()
 
 def get_db():
     db = SessionLocal()
@@ -19,5 +28,3 @@ def get_db():
         yield db
     finally:
         db.close()
-        
-Base = declarative_base()
