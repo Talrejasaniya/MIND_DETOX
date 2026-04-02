@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
-from app.api import auth, journal, ai
+from app.api import auth , journal ,ai,analysis
 from app import models, database
 import os
 # 1. Path Setup (More robust)
@@ -29,17 +29,12 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-# 4. API Routes (Specific routes hamesha upar honi chahiye)
-app.include_router(auth.router, prefix="/api/v1")
+app.include_router(auth.router,prefix="/api/v1")
 app.include_router(journal.router, prefix="/api/v1")
-app.include_router(ai.router, prefix="/api/v1")
+app.include_router(ai.router, prefix="/api/v1",)
+app.include_router(analysis.router, prefix="/api/v1")
+app.mount("/", StaticFiles(directory=frontend_path, html=True), name="static")# Routes include karna
 
-# 5. Static Files (Hamesha last mein, taaki API routes block na hon)
-if os.path.exists(frontend_path):
-    app.mount("/", StaticFiles(directory=frontend_path, html=True), name="static")
-else:
-    print(f"⚠️ Warning: Frontend path not found at {frontend_path}")
-    @app.get("/")
-    def read_root():
-        return {"message": "Welcome to Mind Detox API (Frontend folder missing)"}
+@app.get("/")
+def read_root():
+    return {"message" : "Welcome to the Mind Detox API"}

@@ -16,3 +16,4 @@ tests/
 backend/frontend/.gitignore
 
 frontend-old/
+tests/

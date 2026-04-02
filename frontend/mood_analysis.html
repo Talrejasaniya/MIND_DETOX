@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mood Analysis — Mind Detox</title>
+    <link rel="stylesheet" href="css/styles.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body class="app-page" data-page="mood_analysis">
+
+    <div id="confirm-modal" class="modal-overlay">
+        <div class="modal-card">
+            <div class="modal-icon">⚠️</div>
+            <h3 id="confirm-title">Are you sure?</h3>
+            <p id="confirm-msg">This action cannot be undone.</p>
+            <div class="modal-actions">
+                <button class="btn btn-ghost" id="confirm-cancel">Cancel</button>
+                <button class="btn btn-danger" id="confirm-ok">Yes, Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-brand">
+            <div class="sidebar-brand-logo">🌿</div>
+            <div>
+                <span class="sidebar-brand-name">Mind Detox</span>
+                <span class="sidebar-brand-sub">Your quiet space</span>
+            </div>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a href="dashboard.html" class="sidebar-link" data-page="dashboard">🏠 Dashboard</a>
+            <a href="reflection.html" class="sidebar-link" data-page="reflection">✨ AI Reflection</a>
+            <a href="memories.html" class="sidebar-link" data-page="memories">🌸 Memories</a>
+            <a href="reflection.html#breathing" class="sidebar-link" data-page="breathing">🌬 Breathing</a>
+            <a href="mood_analysis.html" class="sidebar-link active" data-page="mood_analysis">📊 Mood Analysis</a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <button class="sidebar-link btn-full" data-action="logout">↩ Sign Out</button>
+        </div>
+    </aside>
+
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+    <main class="app-main">
+        <header class="topbar">
+            <div class="topbar-left">
+                <button class="sidebar-toggle" id="sidebar-toggle">☰</button>
+                <span class="topbar-title">Mood Insights</span>
+            </div>
+            <div class="topbar-right">
+                <span class="topbar-user-name" id="user-name"></span>
+                <div class="user-avatar" id="user-avatar">?</div>
+                <button class="btn btn-danger btn-sm" data-action="delete-account">Delete Account</button>
+            </div>
+        </header>
+
+        <div class="analysis-container">
+            <h1>Your Emotional Insights 🧠</h1>
+            
+            <div class="insight-card" id="aura-analysis">
+                <h3>Aura's Observation ✨</h3>
+                <p id="insight-text">Aura has analyzed your patterns! ✨</p>
+            </div>
+
+            <div class="stats-grid">
+                <div class="chart-box">
+                    <h4>Mood Distribution (How)</h4>
+                    <canvas id="moodChart"></canvas>
+                </div>
+
+                <div class="chart-box">
+                    <h4>Top Triggers (Why)</h4>
+                    <canvas id="triggerChart"></canvas>
+                </div>
+            </div>
+
+            <div class="pattern-section">
+                <h4>Behaviour Analysis</h4>
+                <div id="behavior-list"></div>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/script.js"></script>
+    <script src="js/mood_analysis.js"></script>
+</body>
+</html>
