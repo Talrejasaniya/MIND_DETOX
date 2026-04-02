@@ -23,7 +23,6 @@ async def signup(User: schemas.UserCreate,db : Session=Depends(database.get_db))
     new_user= models.User(
         username=User.username,
         email=User.email,
-        name=User.username,
         hashed_password=hashed_password
     )
     
