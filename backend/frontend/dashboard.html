@@ -44,6 +44,8 @@
       <a href="reflection.html#breathing" class="sidebar-link" data-page="breathing">
         <span class="link-icon">🌬</span> Breathing
       </a>
+      <a href="mood_analysis.html" class="sidebar-link" data-page="analysis_mood">
+        <span class="link-icon">✨</span> mood_analysis </a>
     </nav>
 
     <div class="sidebar-footer">
@@ -131,7 +133,17 @@
           <p class="list-loading">Loading entries…</p>
         </div>
       </div>
-
+<div id="mood-modal" class="modal-overlay">
+    <div class="modal-card">
+        <div class="modal-icon" id="selected-emoji">😊</div>
+        <h3>What's on your mind?</h3>
+        <p>Short mein batao ye mood kyun hai?</p>
+        <input type="text" id="mood-why-input" class="form-input" placeholder="e.g. Coding, Exams, Chai...">
+        <div class="modal-actions mt-2">
+            <button class="btn btn-primary" id="save-mood-btn">Save Mood</button>
+        </div>
+    </div>
+</div>
       <!-- Stats -->
       <div class="stats-strip">
         <div class="stat-card">
@@ -143,6 +155,7 @@
           <div class="stat-label">🧘 Sessions</div>
         </div>
       </div>
+
 
     </main>
   </div>

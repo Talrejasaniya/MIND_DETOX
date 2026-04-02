@@ -867,3 +867,83 @@ body.app-page { display: flex; min-height: 100vh; }
 .modal-actions { display: flex; gap: 12px; justify-content: center; }
 
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+/* Mood Analysis Page Styling */
+.analysis-container {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 20px;
+    font-family: 'Inter', sans-serif;
+    color: #333;
+}
+
+h1 { color: #5a4fcf; text-align: center; margin-bottom: 30px; }
+
+.app-page {
+    display: flex; /* Sidebar aur Main side-by-side honge */
+    width: 100%;
+    margin: 0;
+}
+
+.app-main {
+    margin-left: 260px; /* Sidebar ki fixed width */
+    flex: 1;
+    width: calc(100% - 260px);
+    padding: 40px;
+    background: var(--cream);
+    min-height: 100vh;
+}
+
+/* 2. Container: Ise patla hone se rokiye */
+.analysis-container {
+    width: 100%;
+    max-width: 1100px; /* Sahi width taaki pichke nahi */
+    margin: 0 auto;
+}
+
+/* 3. Horizontal Charts Logic (Asali Jadoo) */
+.stats-grid {
+    display: flex !important; /* Flexbox Force */
+    flex-direction: row !important; /* Force side-by-side */
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 30px;
+    margin: 30px 0;
+    width: 100%;
+}
+
+.chart-box {
+    flex: 1; /* Dono boxes ko barabar width do */
+    background: var(--white);
+    padding: 25px;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    min-width: 0; /* Important: taaki charts pichke nahi */
+    border-top: 4px solid var(--sage-light);
+}
+
+.chart-box h4 {
+    margin-bottom: 15px;
+    color: var(--text-dark);
+    font-size: 1.1rem;
+    text-align: center;
+}
+
+/* 4. Canvas sizing: Chart.js ko control mein rakho */
+canvas {
+    width: 100% !important;
+    height: 300px !important; /* Height fix kijiye taaki tower na bane */
+}
+
+/* 5. Mobile Responsive: Sirf choti screen par vertical hoga */
+@media (max-width: 900px) {
+    .app-main {
+        margin-left: 0;
+        width: 100%;
+    }
+    .stats-grid {
+        flex-direction: column !important;
+    }
+    .chart-box {
+        width: 100%;
+    }
+}

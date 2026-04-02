@@ -2,7 +2,7 @@ from fastapi import FastAPI
 # Relative '.' hata kar absolute imports use karo
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
-from app.api import auth , journal ,ai
+from app.api import auth , journal ,ai,analysis
 from app import models, database
 import os
 
@@ -25,6 +25,7 @@ app.add_middleware(
 app.include_router(auth.router,prefix="/api/v1")
 app.include_router(journal.router, prefix="/api/v1")
 app.include_router(ai.router, prefix="/api/v1",)
+app.include_router(analysis.router, prefix="/api/v1")
 app.mount("/", StaticFiles(directory=frontend_path, html=True), name="static")# Routes include karna
 
 @app.get("/")

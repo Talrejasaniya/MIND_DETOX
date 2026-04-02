@@ -4,11 +4,13 @@ from uuid import UUID
 from typing import Optional
 
 class UserCreate(BaseModel):
+    username: str = Field(..., min_length=1)
     email: EmailStr
     password: str  = Field(..., min_length=8, max_length=72)
 
 class UserResponse(BaseModel):
     id: UUID
+    username: str
     email: EmailStr
     is_active: bool
     created_at: datetime
@@ -27,6 +29,7 @@ class JournalBase(BaseModel):
    title: Optional[str] = Field(None, max_length=200, description="My First Brain Dump")
    content: str = Field(..., min_length=1, description="Today I felt a bit overwhelmed...")
    mood_tag: Optional[str] = Field(None, description="Neutral")
+   trigger_category: Optional[str] = Field("General", description="Why you felt this")
     
 # Data coming from Frontend (User input)
 class JournalCreate(JournalBase):
@@ -37,7 +40,7 @@ class JournalResponse(JournalBase):
     id: UUID
     user_id: UUID
     created_at: datetime
-    #updated_at: Optional[datetime]
+    
 
     class Config:
         from_attributes = True # SQLAlchemy models ko Pydantic mein convert karne ke liye

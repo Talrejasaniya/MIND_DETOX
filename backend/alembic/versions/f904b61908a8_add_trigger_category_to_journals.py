@@ -1,8 +1,8 @@
-"""added journal and memory tables
+"""add trigger category to journals
 
-Revision ID: d972f8a29ce2
-Revises: 8e3063b174c9
-Create Date: 2026-02-20 16:26:57.712732
+Revision ID: f904b61908a8
+Revises: f8b02f2b5e6f
+Create Date: 2026-03-31 20:47:41.419692
 
 """
 from typing import Sequence, Union
@@ -12,8 +12,8 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision: str = 'd972f8a29ce2'
-down_revision: Union[str, Sequence[str], None] = '8e3063b174c9'
+revision: str = 'f904b61908a8'
+down_revision: Union[str, Sequence[str], None] = 'f8b02f2b5e6f'
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
 

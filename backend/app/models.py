@@ -7,9 +7,8 @@ from sqlalchemy.orm import relationship
 
 class User(Base):
     __tablename__ = "users"
-    
+    username = Column(String, unique=True, index=True, nullable=False)
     id = Column(UUID(as_uuid=True) , primary_key=True, default=uuid.uuid4, index=True)
-    
     email= Column(String , unique=True , index=True , nullable=False)
     
     hashed_password= Column(String , nullable=False)
@@ -28,6 +27,8 @@ class JournalEntry(Base):
     mood_tag = Column(String, default="Neutral")    
     content = Column(Text, nullable=False)
     is_saved = Column(Boolean, default=False) 
+    mood_tag = Column(String, default="Neutral")
+    trigger_category = Column(String, default="General")
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     owner = relationship("User", back_populates="journals")
     memories = relationship("Memory", backref="source_journal", cascade="all, delete-orphan")

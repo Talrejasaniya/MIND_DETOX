@@ -230,28 +230,26 @@ async function completeJournalCreate(text) {
     const res = await fetch(`${API_BASE_URL}/journals/`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', ...getAuthHeader() },
-      body: JSON.stringify({ content: text })
+      body: JSON.stringify({ content: text, mood_tag: mood, trigger_category: category })
     });
     if (!res.ok) throw new Error('Save failed');
     showToast('Journal saved 🌿');
     resetJournalArea();
     initJournalList();
-  } catch (err) {
-    showToast(err.message, 'rose');
-  }
+  } catch (err) { showToast(err.message, 'rose'); }
 }
-
-async function completeJournalUpdate(id, newContent) {
+async function completeJournalUpdate(id, content) {
   const savedMood = localStorage.getItem('md_mood_today') || 'Neutral'; 
 
   try {
-    const res = await fetch(`${API_BASE_URL}/journals/`, {
-      method: 'POST',
+    const res = await fetch(`${API_BASE_URL}/journals/${id}`, {
+      method: 'PUT',
       headers: { 'Content-Type': 'application/json', ...getAuthHeader() },
       // Content ke saath mood bhi bhej rahe hain
       body: JSON.stringify({ 
-        content: text,
-        mood_tag: savedMood 
+        content: content,
+        mood_tag: "Neutral", 
+        trigger_category: "General"
       })
     });
     if (!res.ok) throw new Error('Update failed');
@@ -540,30 +538,48 @@ function initBreathing() {
 /* ═══════════════════════════════════════════
    8. MOOD CHECK-IN
 ═══════════════════════════════════════════ */
-
 function initMoodCheckin() {
-  const moodBtns = document.querySelectorAll('.mood-btn');
-  const savedMsg  = document.getElementById('mood-saved-msg');
-  const saved     = localStorage.getItem('md_mood_today');
+    const moodBtns = document.querySelectorAll('.mood-btn');
+    const modal = document.getElementById('mood-modal');
+    const saveBtn = document.getElementById('save-mood-btn');
+    const input = document.getElementById('mood-why-input');
 
-  if (saved) {
-    const match = document.querySelector(`.mood-btn[data-mood="${saved}"]`);
-    if (match) {
-      match.classList.add('selected');
-      if (savedMsg) { savedMsg.textContent = `Today: ${saved}`; savedMsg.classList.add('visible'); }
-    }
-  }
+    moodBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const mood = btn.dataset.mood;
+            const emoji = btn.innerText.split('\n')[0]; // Emoji nikalne ke liye
+            localStorage.setItem('md_mood_today', mood);
 
-  moodBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      moodBtns.forEach(b => b.classList.remove('selected'));
-      btn.classList.add('selected');
-      const mood = btn.dataset.mood;
-      localStorage.setItem('md_mood_today', mood);
-      if (savedMsg) { savedMsg.textContent = `Saved: ${mood} ✓`; savedMsg.classList.add('visible'); }
-      showToast('Mood recorded 🌿');
+            // Modal dikhao
+            document.getElementById('selected-emoji').innerText = emoji;
+            modal.style.display = 'flex';
+            input.value = ''; // Input clear karo
+        });
     });
-  });
+
+    saveBtn.onclick = async () => {
+    const mood = localStorage.getItem('md_mood_today'); // Emoji wala mood
+    const why = input.value.trim() || 'General';       // Popup wala "Why"
+
+    try {
+        await fetch(`${API_BASE_URL}/journals/`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', ...getAuthHeader() },
+            body: JSON.stringify({ 
+                content: "Quick Mood Log", // 👈 Isse pehchan hogi ki ye sirf Mood tracking hai
+                mood_tag: mood,
+                trigger_category: why 
+            })
+        });
+        modal.style.display = 'none';
+        showToast("Mood tracked successfully! 📈");
+        
+        // Agar aap Analysis page par hain, toh charts refresh karo
+        if (typeof initAnalysis === "function") initAnalysis(); 
+    } catch (err) {
+        console.error("Quick log failed", err);
+    }
+};
 }
 
 /* ═══════════════════════════════════════════
@@ -838,7 +854,7 @@ async function initSignupPage() {
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
     const btn      = form.querySelector('[type="submit"]');
-    const name     = document.getElementById('name').value;
+    const username     = document.getElementById('name').value;
     const email    = document.getElementById('email').value;
     const password = document.getElementById('password').value;
 
@@ -848,7 +864,7 @@ async function initSignupPage() {
       const res = await fetch(`${API_BASE_URL}/signup`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email, password })
+        body: JSON.stringify({ username, email, password })
       });
       if (!res.ok) throw new Error('Signup failed');
       showToast('Account created! Sign in now 🌸');
@@ -876,6 +892,16 @@ document.addEventListener('DOMContentLoaded', () => {
     case 'signup':     initSignupPage();      break;
     case 'dashboard':  initDashboard();       break;
     case 'reflection': initReflectionPage();  break;
-    case 'memories':   initMemoriesPage();    break;
+    case 'memories':   initMemoriesPage();    break; 
+    case 'mood_analysis':
+        // 1. Sidebar aur Topbar initialize karo (Global)
+        initSidebar();
+        initTopbar();
+        // 2. Phir alag JS ka main function call karo
+        if (typeof initAnalysis === "function") {
+            initAnalysis(); 
+        }
+        break;  
+
   }
 });
