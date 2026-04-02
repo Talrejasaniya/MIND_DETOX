@@ -8,8 +8,7 @@
    1. CONFIG & CORE HELPERS
 ═══════════════════════════════════════════ */
 
-const API_BASE_URL = window.location.origin+'/api/v1';
-
+const API_BASE_URL = "https://mind-detox-so3j.onrender.com/api/v1";
 let currentEditingJournalId = null;
 
 function getAuthHeader() {
