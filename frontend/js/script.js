@@ -247,8 +247,6 @@ async function completeJournalUpdate(id, content) {
       // Content ke saath mood bhi bhej rahe hain
       body: JSON.stringify({ 
         content: content,
-        mood_tag: "Neutral", 
-        trigger_category: "General"
       })
     });
     if (!res.ok) throw new Error('Update failed');
