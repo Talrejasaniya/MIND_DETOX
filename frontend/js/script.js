@@ -610,20 +610,17 @@ function initSidebar() {
   });
 
   // Mobile toggle
-  if (toggle && sidebar) {
-    toggle.addEventListener('click', () => {
-      sidebar.classList.toggle('open');
-      if (overlay) overlay.classList.toggle('show');
-    });
-  }
+  toggleBtn.addEventListener('click', () => {
+  sidebar.classList.add('open');
+  overlay.classList.add('active');
+});
 
-  // Close on overlay click
-  if (overlay) {
-    overlay.addEventListener('click', () => {
-      sidebar.classList.remove('open');
-      overlay.classList.remove('show');
-    });
-  }
+// CLOSE (overlay click)
+overlay.addEventListener('click', () => {
+  sidebar.classList.remove('open');
+  overlay.classList.remove('active');
+});
+
 }
 
 async function deleteAccount() {
@@ -872,7 +869,12 @@ async function initSignupPage() {
     }
   });
 }
-
+document.querySelectorAll('.sidebar a').forEach(link => {
+  link.addEventListener('click', () => {
+    sidebar.classList.remove('open');
+    overlay.classList.remove('active');
+  });
+});
 /* ═══════════════════════════════════════════
    12. PAGE ROUTER
 ═══════════════════════════════════════════ */
