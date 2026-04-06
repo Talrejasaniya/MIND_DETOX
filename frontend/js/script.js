@@ -229,7 +229,7 @@ async function completeJournalCreate(text) {
     const res = await fetch(`${API_BASE_URL}/journals/`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', ...getAuthHeader() },
-      body: JSON.stringify({ content: text, mood_tag: mood, trigger_category: category })
+      body: JSON.stringify({ content: text})
     });
     if (!res.ok) throw new Error('Save failed');
     showToast('Journal saved 🌿');
@@ -599,28 +599,21 @@ function initDashStats() {
 ═══════════════════════════════════════════ */
 
 function initSidebar() {
-  const toggle  = document.getElementById('sidebar-toggle');
   const sidebar = document.getElementById('sidebar');
+  const toggleBtn = document.getElementById('sidebar-toggle');
   const overlay = document.getElementById('sidebar-overlay');
 
-  // Mark active link based on current page
-  const page = document.body.dataset.page;
-  document.querySelectorAll('.sidebar-link').forEach(link => {
-    if (link.dataset.page === page) link.classList.add('active');
+  if (!sidebar || !toggleBtn || !overlay) return;
+
+  toggleBtn.addEventListener('click', () => {
+    sidebar.classList.toggle('open');
+    overlay.style.display = sidebar.classList.contains('open') ? 'block' : 'none';
   });
 
-  // Mobile toggle
-  toggleBtn.addEventListener('click', () => {
-  sidebar.classList.add('open');
-  overlay.classList.add('active');
-});
-
-// CLOSE (overlay click)
-overlay.addEventListener('click', () => {
-  sidebar.classList.remove('open');
-  overlay.classList.remove('active');
-});
-
+  overlay.addEventListener('click', () => {
+    sidebar.classList.remove('open');
+    overlay.style.display = 'none';
+  });
 }
 
 async function deleteAccount() {
