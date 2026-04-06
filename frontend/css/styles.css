@@ -500,7 +500,6 @@ body.app-page { display: flex; min-height: 100vh; }
 .journal-item-text {
   font-size: 14px; color: var(--text-mid); line-height: 1.6; margin-bottom: 4px;
   display: -webkit-box;
-  -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
@@ -816,9 +815,11 @@ body.app-page { display: flex; min-height: 100vh; }
 ════════════════════════════════════════════ */
 
 @media (max-width: 768px) {
-  .sidebar { transform: translateX(-100%); width: 220px; }
+  .sidebar { transform: transform 0.3s ease; width: 220px; }
   .sidebar.open { transform: translateX(0); box-shadow: var(--shadow-lg); }
-  .sidebar-overlay { display: block; }
+  .sidebar-overlay { display: none; }
+  .sidebar-overlay.active { display: block; }
+
   .app-main { margin-left: 0; }
   .sidebar-toggle { display: block; }
   .page-content { padding: 24px 20px 48px; }
@@ -835,8 +836,8 @@ body.app-page { display: flex; min-height: 100vh; }
 @media (max-width: 480px) {
   .hero-title { font-size: 32px; }
   .hero-cta { flex-direction: column; align-items: center; }
-  .features-grid { grid-template-columns: 1fr; }
-  .mood-btn { padding: 7px 10px; font-size: 19px; }
+  .features-grid { grid-template-columns: repeat(auto-fit,minmax(140px,1fr)); }
+  .mood-btn { padding:  10px 14px; font-size: 20px; }
   .stats-strip { grid-template-columns: 1fr; }
   .page-content { padding: 20px 14px 48px; }
 }
@@ -854,18 +855,22 @@ body.app-page { display: flex; min-height: 100vh; }
   background: var(--white);
   padding: 30px;
   border-radius: var(--radius-lg);
-  max-width: 350px; width: 90%;
+  max-width: 320px; width: 92%;
   text-align: center;
   box-shadow: var(--shadow-lg);
   border-top: 4px solid var(--rose);
+  max-height: 90vh;
+  overflow-y: auto;
 }
-
+button{
+  -webkit-tap-highlight-color: transparent;
+}
 .modal-icon { font-size: 40px; margin-bottom: 15px; }
 .modal-card h3 { margin-bottom: 10px; color: var(--text-dark); }
 .modal-card p { font-size: 14px; color: var(--text-mid); margin-bottom: 25px; }
 
 .modal-actions { display: flex; gap: 12px; justify-content: center; }
-
+.topbar{padding: 0 18px;}
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 /* Mood Analysis Page Styling */
 .analysis-container {
