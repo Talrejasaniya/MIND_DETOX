@@ -604,17 +604,32 @@ function initSidebar() {
   const overlay = document.getElementById('sidebar-overlay');
 
   if (!sidebar || !toggleBtn || !overlay) return;
+const toggleSidebar = () => {
+    const isOpen = sidebar.classList.toggle('open');
+    overlay.classList.toggle('active', isOpen); // CSS class 'active' use karo
+  };
 
-  toggleBtn.addEventListener('click', () => {
-    sidebar.classList.toggle('open');
-    overlay.style.display = sidebar.classList.contains('open') ? 'block' : 'none';
-  });
+  toggleBtn.onclick = (e) => { e.stopPropagation(); toggleSidebar(); };
+  overlay.onclick = toggleSidebar;
 
-  overlay.addEventListener('click', () => {
-    sidebar.classList.remove('open');
-    overlay.style.display = 'none';
+  // Menu links par click karte hi band ho jaye (Mobile ke liye zaroori)
+  sidebar.querySelectorAll('.sidebar-link').forEach(link => {
+    link.onclick = () => {
+      sidebar.classList.remove('open');
+      overlay.classList.remove('active');
+    };
   });
 }
+ // toggleBtn.addEventListener('click', () => {
+  //  sidebar.classList.toggle('open');
+   // overlay.style.display = sidebar.classList.contains('open') ? 'block' : 'none';
+ // });
+
+  //overlay.addEventListener('click', () => {
+   // sidebar.classList.remove('open');
+   // overlay.style.display = 'none';
+ // });
+//}
 
 async function deleteAccount() {
     // ⚠️ Blind Spot Check: Bina confirmation ke delete mat karna!
