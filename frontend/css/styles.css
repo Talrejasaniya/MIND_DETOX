@@ -815,8 +815,12 @@ body.app-page { display: flex; min-height: 100vh; }
 ════════════════════════════════════════════ */
 
 @media (max-width: 768px) {
-  .sidebar { transform: transform 0.3s ease; width: 220px; }
-  .sidebar.open { transform: translateX(0); box-shadow: var(--shadow-lg); }
+  .sidebar { transform: translateX(-100%); 
+    /* 2. Transition sahi karo (Aapne transform: transform likha tha) */
+    transition: transform 0.3s ease; 
+    width: 240px;
+    z-index: 1000; }
+  .sidebar.open { transform: translateX(0);  }
   .sidebar-overlay { position: fixed;
     inset:0;
     display:  none;
