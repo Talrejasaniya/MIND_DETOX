@@ -4,6 +4,7 @@ from fastapi.staticfiles import StaticFiles
 from app.api import auth , journal ,ai,analysis
 from app import models, database
 import os
+from fastapi.staticfiles import StaticFiles
 # 1. Path Setup (More robust)
 current_file_path = os.path.abspath(__file__) # backend/app/main.py
 app_dir = os.path.dirname(current_file_path)   # backend/app
@@ -33,6 +34,8 @@ app.include_router(auth.router,prefix="/api/v1")
 app.include_router(journal.router, prefix="/api/v1")
 app.include_router(ai.router, prefix="/api/v1",)
 app.include_router(analysis.router, prefix="/api/v1")
+static_path = os.path.join(frontend_path, "static")
+app.mount("/static", StaticFiles(directory=static_path), name="static")
 app.mount("/", StaticFiles(directory=frontend_path, html=True), name="static")# Routes include karna
 
 @app.get("/")
