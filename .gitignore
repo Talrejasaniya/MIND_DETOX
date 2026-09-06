@@ -3,7 +3,7 @@
 *.pyc
 
 # Backend secrets and environment
-backend/.env
+.env
 backend/.venv/
 backend/.pytest_cache/
 backend/app/api/__pycache__/
