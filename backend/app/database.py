@@ -3,10 +3,12 @@ import sys
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
 from dotenv import load_dotenv
-load_dotenv(os.path.join(os.getcwd(), '.env'))
+load_dotenv()
 
 # 1. Variable uthayein
 db_url = os.getenv("DATABASE_URL")
+
+print(f"FASTAPI DATABASE URL: {db_url}")
 if db_url:
     host_part = db_url.split('@')[-1] if '@' in db_url else "MISSING HOST"
     print(f"DEBUG: Connecting to host -> {host_part}")
