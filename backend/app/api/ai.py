@@ -127,7 +127,6 @@ def get_user_memories(
     memories = db.query(models.Memory).filter(models.Memory.user_id == current_user.id).all()
     return memories
 
-# app/api/ai.py ke end mein add karein
 
 @router.delete("/memories/{id}", status_code=status.HTTP_204_NO_CONTENT)
 def delete_memory(id: UUID, db: Session = Depends(database.get_db), current_user: models.User = Depends(oauth2.get_current_user)):
